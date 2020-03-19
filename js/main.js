@@ -117,7 +117,6 @@
       photosFragment.appendChild(imgElement);
     }
 
-
     photosContainer.querySelector('.popup__photo').remove();
     photosContainer.appendChild(photosFragment);
 

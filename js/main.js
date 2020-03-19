@@ -9,7 +9,6 @@
   }
 
   var getSimilarAdvertisements = function () {
-
     var PHOTO_SOURCES = [
       'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
       'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
@@ -21,7 +20,6 @@
     var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
     for (var index = 1; index <= 8; index++) {
-
       advertisements.push(
           {
             'author': {
@@ -52,14 +50,10 @@
   };
 
   var createPinForAdvertisement = function (advertisement) {
-
     var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-
     var pinElement = pinTemplate.cloneNode(true);
-
     pinElement.style.left = advertisement.location.x + 'px';
     pinElement.style.top = advertisement.location.y + 'px';
-
     pinElement.firstChild.src = advertisement.author.avatar;
     pinElement.firstChild.alt = advertisement.offer.title;
 
@@ -69,7 +63,6 @@
   var createAdvertisementCard = function (advertisement) {
 
     var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-
     var cardElement = cardTemplate.cloneNode(true);
 
     cardElement.querySelector('.popup__text--address').textContent = advertisement.offer.address;
@@ -83,32 +76,25 @@
     var featuresContainer = cardElement.querySelector('.popup__features');
 
     if (!advertisement.offer.features.includes('wifi')) {
-
       featuresContainer.querySelector('.popup__feature--wifi').remove();
     }
     if (!advertisement.offer.features.includes('dishwasher')) {
-
       featuresContainer.querySelector('.popup__feature--dishwasher').remove();
     }
     if (!advertisement.offer.features.includes('parking')) {
-
       featuresContainer.querySelector('.popup__feature--parking').remove();
     }
     if (!advertisement.offer.features.includes('washer')) {
-
       featuresContainer.querySelector('.popup__feature--washer').remove();
     }
     if (!advertisement.offer.features.includes('elevator')) {
-
       featuresContainer.querySelector('.popup__feature--elevator').remove();
     }
     if (!advertisement.offer.features.includes('conditioner')) {
-
       featuresContainer.querySelector('.popup__feature--conditioner').remove();
     }
 
     var photosContainer = cardElement.querySelector('.popup__photos');
-
     var photosFragment = document.createDocumentFragment();
 
     for (var index = 0; index < advertisement.offer.photos.length; index++) {
@@ -125,27 +111,22 @@
 
   var generatePins = function () {
     var similarAdvertisements = getSimilarAdvertisements();
-
     var advertisementPinsFragment = document.createDocumentFragment();
 
     for (var index = 0; index < similarAdvertisements.length; index++) {
-
       var pin = createPinForAdvertisement(similarAdvertisements[index]);
       advertisementPinsFragment.appendChild(pin);
     }
 
     var pinsContainer = document.querySelector('.map__pins');
-
     pinsContainer.appendChild(advertisementPinsFragment);
   };
 
   var generateAdvertisementCards = function () {
     var similarAdvertisements = getSimilarAdvertisements();
-
     var advertisementCardsFragment = document.createDocumentFragment();
 
     for (var index = 0; index < similarAdvertisements.length; index++) {
-
       var pin = createAdvertisementCard(similarAdvertisements[index]);
       advertisementCardsFragment.appendChild(pin);
     }

@@ -197,7 +197,7 @@
     }
   };
 
-  var onTitleSubmit = function () {
+  var onTitleChange = function () {
     validateAdTitle();
   };
 
@@ -231,11 +231,11 @@
     adFormTimein.value = adFormTimeout.value;
   };
 
-  var onRoomNumberSubmit = function () {
+  var onRoomNumberChange = function () {
     validateAdRoomNumber();
   };
 
-  var onCapacitySubmit = function () {
+  var onCapacityChange = function () {
     validateAdCapacity();
   };
 
@@ -250,14 +250,13 @@
     }
   };
 
-
-  adFormTitle.addEventListener('input', onTitleSubmit);
+  adFormTitle.addEventListener('input', onTitleChange);
   adFormPrice.addEventListener('input', onAdPriceInput);
   adFormType.addEventListener('change', onAdFormTypeChange);
   adFormTimein.addEventListener('change', onAdFormTimeinChange);
   adFormTimeout.addEventListener('change', onAdFormTimeoutChange);
-  adFormCapacity.addEventListener('change', onCapacitySubmit);
-  adFormRoomNumber.addEventListener('change', onRoomNumberSubmit);
+  adFormCapacity.addEventListener('change', onCapacityChange);
+  adFormRoomNumber.addEventListener('change', onRoomNumberChange);
   adForm.addEventListener('submit', onAdFormSubmit);
   pinButton.addEventListener('keydown', onPinButtonEnter);
   pinButton.addEventListener('mousedown', onPinButtonClick);

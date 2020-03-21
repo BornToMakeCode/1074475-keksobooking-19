@@ -135,6 +135,7 @@
 
   var onRoomNumberSubmit = function () {
     adFormRoomNumber.setCustomValidity('');
+    adFormCapacity.setCustomValidity('');
 
     if (!areCapacityAndRoomNumberValid()) {
       adFormRoomNumber.setCustomValidity('Количество комнат не может быть меньше количества мест');
@@ -144,6 +145,7 @@
 
   var onCapacitySubmit = function () {
     adFormCapacity.setCustomValidity('');
+    adFormRoomNumber.setCustomValidity('');
 
     if (!areCapacityAndRoomNumberValid()) {
       adFormCapacity.setCustomValidity('Количество мест не может превышать количество комнат');
@@ -151,6 +153,15 @@
     }
   };
 
+  var onAdFormSubmit = function (evt) {
+    onRoomNumberSubmit();
+    onCapacitySubmit();
+    if (!adForm.checkValidity()) {
+      evt.preventDefault();
+    }
+  };
+
+  adForm.addEventListener('submit',onAdFormSubmit);
   adFormCapacity.addEventListener('change', onCapacitySubmit);
   adFormRoomNumber.addEventListener('change', onRoomNumberSubmit);
   pinButton.addEventListener('keydown', onPinButtonEnter);

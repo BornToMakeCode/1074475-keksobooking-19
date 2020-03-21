@@ -9,145 +9,97 @@
   }
 
   var pinButton = document.querySelector('.map__pin--main');
-  var AdvertisementForm = function () {
-    var formElement = document.querySelector('.ad-form');
-
-    this.submitButton = formElement.querySelector('.ad-form__submit');
-    this.resetButton = formElement.querySelector('.ad-form__reset');
-    this.isDisabled = formElement.classList.contains('ad-form--disabled');
-    this.title = formElement.querySelector('#title');
-    this.address = formElement.querySelector('#address');
-    this.type = formElement.querySelector('#type');
-    this.price = formElement.querySelector('#price');
-    this.timein = formElement.querySelector('#timein');
-    this.timeout = formElement.querySelector('#timeout');
-    this.roomNumber = formElement.querySelector('#room_number');
-    this.capacity = formElement.querySelector('#capacity');
-    this.description = formElement.querySelector('#description');
-    this.images = formElement.querySelector('#images');
-    this.features = {
-      'wifi': formElement.querySelector('#feature-wifi'),
-      'dishwasher': formElement.querySelector('#feature-dishwasher'),
-      'parking': formElement.querySelector('#feature-parking'),
-      'washer': formElement.querySelector('#feature-washer'),
-      'elevator': formElement.querySelector('#feature-elevator'),
-      'conditioner': formElement.querySelector('#feature-conditioner')
-    };
-
-    this.onSubmit = function (handler) {
-      formElement.addEventListener('submit', handler);
-    };
-
-    this.disable = function (isDisabled) {
-      var shouldBeDisabled = typeof isDisabled === 'boolean' ? isDisabled : true;
-
-      if (shouldBeDisabled) {
-        if (!this.isDisabled) {
-          formElement.classList.add('ad-form--disabled');
-        }
-      } else {
-        formElement.classList.remove('ad-form--disabled');
-      }
-
-      this.title.disabled = shouldBeDisabled;
-      this.address.disabled = shouldBeDisabled;
-      this.type.disabled = shouldBeDisabled;
-      this.price.disabled = shouldBeDisabled;
-      this.timein.disabled = shouldBeDisabled;
-      this.timeout.disabled = shouldBeDisabled;
-      this.roomNumber.disabled = shouldBeDisabled;
-      this.capacity.disabled = shouldBeDisabled;
-      this.description.disabled = shouldBeDisabled;
-      this.images.disabled = shouldBeDisabled;
-      this.features.wifi.disabled = shouldBeDisabled;
-      this.features.dishwasher.disabled = shouldBeDisabled;
-      this.features.parking.disabled = shouldBeDisabled;
-      this.features.washer.disabled = shouldBeDisabled;
-      this.features.elevator.disabled = shouldBeDisabled;
-      this.features.conditioner.disabled = shouldBeDisabled;
-      this.submitButton.disabled = shouldBeDisabled;
-      this.resetButton.disabled = shouldBeDisabled;
-    };
-
-    this.areRoomWidthCapacityValid = function () {
-      var result = false;
-      if (this.roomNumber.value === '100' || this.capacity.value === '0') {
-        result = this.capacity.value === '0' && this.roomNumber.value === '100';
-      } else {
-        result = this.roomNumber.value >= this.capacity.value;
-      }
-      return result;
-    };
-
-    this.isRoomNumberValid = function () {
-      var result = false;
-      switch (this.capacity.value) {
-        case '0':
-          result = this.roomNumber.value === '100';
-          break;
-        default:
-          result = this.roomNumber.value >= this.capacity.value;
-          break;
-      }
-      return result;
-    };
-
-    this.isCapacityValid = function () {
-      var result = false;
-      switch (this.roomNumber.value) {
-        case '100':
-          result = this.capacity.value === '0';
-          break;
-        default:
-          result = this.capacity.value <= this.roomNumber.value;
-          break;
-      }
-      return result;
-    };
+  var adForm = document.querySelector('.ad-form');
+  var adFormSubmitButton = adForm.querySelector('.ad-form__submit');
+  var adFormResetButton = adForm.querySelector('.ad-form__reset');
+  var adFormTitle = adForm.querySelector('#title');
+  var adFormAddress = adForm.querySelector('#address');
+  var adFormType = adForm.querySelector('#type');
+  var adFormPrice = adForm.querySelector('#price');
+  var adFormTimein = adForm.querySelector('#timein');
+  var adFormTimeout = adForm.querySelector('#timeout');
+  var adFormRoomNumber = adForm.querySelector('#room_number');
+  var adFormCapacity = adForm.querySelector('#capacity');
+  var adFormDescription = adForm.querySelector('#description');
+  var adFormImages = adForm.querySelector('#images');
+  var adFormFeatures = {
+    'wifi': adForm.querySelector('#feature-wifi'),
+    'dishwasher': adForm.querySelector('#feature-dishwasher'),
+    'parking': adForm.querySelector('#feature-parking'),
+    'washer': adForm.querySelector('#feature-washer'),
+    'elevator': adForm.querySelector('#feature-elevator'),
+    'conditioner': adForm.querySelector('#feature-conditioner')
+  };
+  var isAdFormDisabled = adForm.classList.contains('ad-form--disabled');
+  var filterForm = document.querySelector('.map__filters');
+  var filterFormType = filterForm.querySelector('#housing-type');
+  var filterFormPrice = filterForm.querySelector('#housing-price');
+  var filterFormRoomNumber = filterForm.querySelector('#housing-rooms');
+  var filterFormCapacity = filterForm.querySelector('#housing-guests');
+  var filterFormFeatures = {
+    'wifi': filterForm.querySelector('#filter-wifi'),
+    'dishwasher': filterForm.querySelector('#filter-dishwasher'),
+    'parking': filterForm.querySelector('#filter-parking'),
+    'washer': filterForm.querySelector('#filter-washer'),
+    'elevator': filterForm.querySelector('#filter-elevator'),
+    'conditioner': filterForm.querySelector('#filter-conditioner')
   };
 
-  var FilterForm = function () {
-    var formElement = document.querySelector('.map__filters');
+  var disableFilterForm = function (isDisabled) {
+    var shouldBeDisabled = typeof isDisabled === 'boolean' ? isDisabled : true;
 
-    this.type = formElement.querySelector('#housing-type');
-    this.price = formElement.querySelector('#housing-price');
-    this.roomNumber = formElement.querySelector('#housing-rooms');
-    this.capacity = formElement.querySelector('#housing-guests');
-    this.features = {
-      'wifi': formElement.querySelector('#filter-wifi'),
-      'dishwasher': formElement.querySelector('#filter-dishwasher'),
-      'parking': formElement.querySelector('#filter-parking'),
-      'washer': formElement.querySelector('#filter-washer'),
-      'elevator': formElement.querySelector('#filter-elevator'),
-      'conditioner': formElement.querySelector('#filter-conditioner')
-    };
-
-    this.disable = function (isDisabled) {
-      var shouldBeDisabled = typeof isDisabled === 'boolean' ? isDisabled : true;
-
-      this.type.disabled = shouldBeDisabled;
-      this.price.disabled = shouldBeDisabled;
-      this.roomNumber.disabled = shouldBeDisabled;
-      this.capacity.disabled = shouldBeDisabled;
-      this.features.wifi.disabled = shouldBeDisabled;
-      this.features.dishwasher.disabled = shouldBeDisabled;
-      this.features.parking.disabled = shouldBeDisabled;
-      this.features.washer.disabled = shouldBeDisabled;
-      this.features.elevator.disabled = shouldBeDisabled;
-      this.features.conditioner.disabled = shouldBeDisabled;
-    };
+    filterFormType.disabled = shouldBeDisabled;
+    filterFormPrice.disabled = shouldBeDisabled;
+    filterFormRoomNumber.disabled = shouldBeDisabled;
+    filterFormCapacity.disabled = shouldBeDisabled;
+    filterFormFeatures.wifi.disabled = shouldBeDisabled;
+    filterFormFeatures.dishwasher.disabled = shouldBeDisabled;
+    filterFormFeatures.parking.disabled = shouldBeDisabled;
+    filterFormFeatures.washer.disabled = shouldBeDisabled;
+    filterFormFeatures.elevator.disabled = shouldBeDisabled;
+    filterFormFeatures.conditioner.disabled = shouldBeDisabled;
   };
-  var newAdvertisement = new AdvertisementForm();
-  var newFilter = new FilterForm();
+
+  var disableForm = function (isDisabled) {
+    var shouldBeDisabled = typeof isDisabled === 'boolean' ? isDisabled : true;
+
+    if (shouldBeDisabled) {
+      if (!isAdFormDisabled) {
+        adForm.classList.add('ad-form--disabled');
+      }
+    } else {
+      adForm.classList.remove('ad-form--disabled');
+    }
+
+    adFormTitle.disabled = shouldBeDisabled;
+    adFormAddress.disabled = shouldBeDisabled;
+    adFormType.disabled = shouldBeDisabled;
+    adFormPrice.disabled = shouldBeDisabled;
+    adFormTimein.disabled = shouldBeDisabled;
+    adFormTimeout.disabled = shouldBeDisabled;
+    adFormRoomNumber.disabled = shouldBeDisabled;
+    adFormCapacity.disabled = shouldBeDisabled;
+    adFormDescription.disabled = shouldBeDisabled;
+    adFormImages.disabled = shouldBeDisabled;
+    adFormFeatures.wifi.disabled = shouldBeDisabled;
+    adFormFeatures.dishwasher.disabled = shouldBeDisabled;
+    adFormFeatures.parking.disabled = shouldBeDisabled;
+    adFormFeatures.washer.disabled = shouldBeDisabled;
+    adFormFeatures.elevator.disabled = shouldBeDisabled;
+    adFormFeatures.conditioner.disabled = shouldBeDisabled;
+    adFormSubmitButton.disabled = shouldBeDisabled;
+    adFormResetButton.disabled = shouldBeDisabled;
+  };
+
 
   var disablePage = function () {
-    newAdvertisement.disable();
-    newFilter.disable();
+    disableFilterForm();
+    disableForm();
   };
 
   var enablePage = function () {
-    newAdvertisement.disable(false);
-    newFilter.disable(false);
+    disableFilterForm(false);
+    disableForm(false);
   };
 
   var onPinButtonClick = function (evt) {
@@ -164,36 +116,45 @@
     }
   };
 
-  var onPinButtonMove = function (evt) {
-    var mainButton = 0;
-    // 44px + 22px - pins height
+  var areCapacityAndRoomNumberValid = function () {
+    var result = false;
 
-    if (evt.button === mainButton) {
-      // debugger;
+    var capacityNumber = Number(adFormCapacity.value);
+    var roomsNumber = Number(adFormRoomNumber.value);
+
+    if (capacityNumber === 0) {
+      result = roomsNumber === 100;
+    } else if (roomsNumber === 100) {
+      result = capacityNumber === 0;
+    } else {
+      result = capacityNumber <= roomsNumber;
     }
+
+    return result;
   };
 
   var onRoomNumberSubmit = function () {
-    if (!newAdvertisement.isRoomNumberValid()) {
-      newAdvertisement.roomNumber.setCustomValidity('Количество комнат не может быть меньше количества мест');
-    } else {
-      newAdvertisement.roomNumber.setCustomValidity('');
+    adFormRoomNumber.setCustomValidity('');
+
+    if (!areCapacityAndRoomNumberValid()) {
+      adFormRoomNumber.setCustomValidity('Количество комнат не может быть меньше количества мест');
+      adFormRoomNumber.reportValidity();
     }
   };
 
   var onCapacitySubmit = function () {
-    if (!newAdvertisement.isCapacityValid()) {
-      newAdvertisement.capacity.setCustomValidity('Количество мест не может превышать количество комнат');
-    } else {
-      newAdvertisement.capacity.setCustomValidity('');
+    adFormCapacity.setCustomValidity('');
+
+    if (!areCapacityAndRoomNumberValid()) {
+      adFormCapacity.setCustomValidity('Количество мест не может превышать количество комнат');
+      adFormCapacity.reportValidity();
     }
   };
 
+  adFormCapacity.addEventListener('change', onRoomNumberSubmit);
+  adFormRoomNumber.addEventListener('change', onCapacitySubmit);
   pinButton.addEventListener('keydown', onPinButtonEnter);
   pinButton.addEventListener('mousedown', onPinButtonClick);
-  pinButton.addEventListener('mousedown', onPinButtonMove);
-  newAdvertisement.onSubmit(onRoomNumberSubmit);
-  newAdvertisement.onSubmit(onCapacitySubmit);
 
   var getSimilarAdvertisements = function () {
     var PHOTO_SOURCES = [

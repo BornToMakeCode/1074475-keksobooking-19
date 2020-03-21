@@ -44,6 +44,7 @@
     'elevator': filterForm.querySelector('#filter-elevator'),
     'conditioner': filterForm.querySelector('#filter-conditioner')
   };
+  adFormAddress.disabled = true;
 
   var disableFilterForm = function (isDisabled) {
     var shouldBeDisabled = typeof isDisabled === 'boolean' ? isDisabled : true;
@@ -72,7 +73,6 @@
     }
 
     adFormTitle.disabled = shouldBeDisabled;
-    adFormAddress.disabled = shouldBeDisabled;
     adFormType.disabled = shouldBeDisabled;
     adFormPrice.disabled = shouldBeDisabled;
     adFormTimein.disabled = shouldBeDisabled;
@@ -133,7 +133,51 @@
     return result;
   };
 
-  var onRoomNumberSubmit = function () {
+  var validateAdTitle = function () {
+    adFormTitle.setCustomValidity('');
+
+    if (adFormTitle.validity.valueMissing) {
+      adFormTitle.setCustomValidity('Заголовок не может быть пустым');
+    } else if (adFormTitle.validity.tooShort) {
+      adFormTitle.setCustomValidity('Минимальная длина заголовка равна 30 символам');
+    } else if (adFormTitle.validity.tooLong) {
+      adFormTitle.setCustomValidity('Максимальная длина заголовка равна 100 символам');
+    } else if (adFormTitle.validity.valueMissing) {
+      adFormTitle.setCustomValidity('Заголовок обязателен для заполнения');
+    }
+    adFormTitle.reportValidity();
+  };
+
+  var validateAdPrice = function () {
+    var price = Number(adFormPrice.value);
+    adFormPrice.setCustomValidity('');
+
+    switch (adFormType.value) {
+      case 'bungalo':
+        if (price < 0) {
+          adFormPrice.setCustomValidity('Минимальная цена за ночь для бунгало не может быть меньше 0');
+        }
+        break;
+      case 'flat':
+        if (price < 1000) {
+          adFormPrice.setCustomValidity('Минимальная цена за ночь для квартиры не может быть меньше 1 000');
+        }
+        break;
+      case 'house':
+        if (price < 5000) {
+          adFormPrice.setCustomValidity('Минимальная цена за ночь для дома не может быть меньше 5 000');
+        }
+        break;
+      case 'palace':
+        if (price < 10000) {
+          adFormPrice.setCustomValidity('Минимальная цена за ночь для дворца не может быть меньше 10 000');
+        }
+        break;
+    }
+    adFormPrice.reportValidity();
+  };
+
+  var validateAdRoomNumber = function () {
     adFormRoomNumber.setCustomValidity('');
     adFormCapacity.setCustomValidity('');
 
@@ -143,7 +187,7 @@
     }
   };
 
-  var onCapacitySubmit = function () {
+  var validateAdCapacity = function () {
     adFormCapacity.setCustomValidity('');
     adFormRoomNumber.setCustomValidity('');
 
@@ -153,17 +197,68 @@
     }
   };
 
+  var onTitleSubmit = function () {
+    validateAdTitle();
+  };
+
+  var onAdPriceInput = function () {
+    validateAdPrice();
+  };
+
+  var onAdFormTypeChange = function () {
+    switch (adFormType.value) {
+      case 'bungalo':
+        adFormPrice.placeholder = 0;
+        break;
+      case 'flat':
+        adFormPrice.placeholder = 1000;
+        break;
+      case 'house':
+        adFormPrice.placeholder = 5000;
+        break;
+      case 'palace':
+        adFormPrice.placeholder = 10000;
+        break;
+    }
+    adFormPrice.reportValidity();
+  };
+
+  var onAdFormTimeinChange = function () {
+    adFormTimeout.value = adFormTimein.value;
+  };
+
+  var onAdFormTimeoutChange = function () {
+    adFormTimein.value = adFormTimeout.value;
+  };
+
+  var onRoomNumberSubmit = function () {
+    validateAdRoomNumber();
+  };
+
+  var onCapacitySubmit = function () {
+    validateAdCapacity();
+  };
+
   var onAdFormSubmit = function (evt) {
-    onRoomNumberSubmit();
-    onCapacitySubmit();
+    validateAdTitle();
+    validateAdPrice();
+    validateAdRoomNumber();
+    validateAdCapacity();
+
     if (!adForm.checkValidity()) {
       evt.preventDefault();
     }
   };
 
-  adForm.addEventListener('submit',onAdFormSubmit);
+
+  adFormTitle.addEventListener('input', onTitleSubmit);
+  adFormPrice.addEventListener('input', onAdPriceInput);
+  adFormType.addEventListener('change', onAdFormTypeChange);
+  adFormTimein.addEventListener('change', onAdFormTimeinChange);
+  adFormTimeout.addEventListener('change', onAdFormTimeoutChange);
   adFormCapacity.addEventListener('change', onCapacitySubmit);
   adFormRoomNumber.addEventListener('change', onRoomNumberSubmit);
+  adForm.addEventListener('submit', onAdFormSubmit);
   pinButton.addEventListener('keydown', onPinButtonEnter);
   pinButton.addEventListener('mousedown', onPinButtonClick);
 

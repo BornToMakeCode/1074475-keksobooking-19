@@ -151,8 +151,8 @@
     }
   };
 
-  adFormCapacity.addEventListener('change', onRoomNumberSubmit);
-  adFormRoomNumber.addEventListener('change', onCapacitySubmit);
+  adFormCapacity.addEventListener('change', onCapacitySubmit);
+  adFormRoomNumber.addEventListener('change', onRoomNumberSubmit);
   pinButton.addEventListener('keydown', onPinButtonEnter);
   pinButton.addEventListener('mousedown', onPinButtonClick);
 

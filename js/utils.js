@@ -1,5 +1,13 @@
 'use strict';
 
 (function () {
-  // TODO: add keyboard keys
+
+  var Key = {
+    'ENTER': 'Enter',
+    'ESCAPE': 'Escape'
+  };
+
+  window.utils = {
+    Key: Key
+  };
 })();

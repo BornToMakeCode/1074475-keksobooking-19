@@ -99,7 +99,7 @@
   window.pointer.create('.map__pin--main');
 
   window.pointer.onKeyDown(function (evt) {
-    if (evt.key === 'Enter') {
+    if (evt.key === window.utils.Key.ENTER) {
       enablePage();
     }
   });

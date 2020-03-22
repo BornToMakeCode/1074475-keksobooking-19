@@ -145,7 +145,7 @@
     }
   };
 
-  var onTitleChange = function () {
+  var onTitleBlur = function () {
     validateAdTitle();
   };
 
@@ -198,7 +198,7 @@
     }
   };
 
-  adFormTitle.addEventListener('input', onTitleChange);
+  adFormTitle.addEventListener('blur', onTitleBlur);
   adFormPrice.addEventListener('input', onAdPriceInput);
   adFormType.addEventListener('change', onAdFormTypeChange);
   adFormTimein.addEventListener('change', onAdFormTimeinChange);

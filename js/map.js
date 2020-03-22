@@ -67,7 +67,7 @@
     };
 
     var onOpenedAdKeydown = function (evt) {
-      if (evt.key === 'Escape') {
+      if (evt.key === window.utils.Key.ESCAPE) {
         advertisementCard.remove();
         removePinHighlight();
         document.removeEventListener('keydown', onOpenedAdKeydown);
@@ -107,7 +107,7 @@
     };
 
     var onPinEnter = function (evt) {
-      if (evt.key === 'Enter') {
+      if (evt.key === window.utils.Key.ENTER) {
         highlightPin(pinElement);
         showAdvertisementCard(advertisement);
       }

@@ -96,22 +96,22 @@
   var similarAdvertisements = getSimilarAdvertisements();
   window.map.addAdvertisments(similarAdvertisements);
 
-  window.pin.create('.map__pin--main');
+  window.pointer.create('.map__pin--main');
 
-  window.pin.onKeyDown(function (evt) {
+  window.pointer.onKeyDown(function (evt) {
     if (evt.key === 'Enter') {
       enablePage();
     }
   });
 
-  window.pin.onMouseDown(function (evt) {
+  window.pointer.onMouseDown(function (evt) {
     var mainButton = 0;
     if (evt.button === mainButton) {
       enablePage();
     }
   });
 
-  window.pin.onMove(function (coord) {
+  window.pointer.onMove(function (coord) {
     window.form.setAddress(coord.X, coord.Y);
   });
 

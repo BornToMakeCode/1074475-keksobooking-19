@@ -51,18 +51,18 @@
 
       };
 
-      var pinMouseUpHandler = function () {
+      var onMouseUp = function () {
         map.removeEventListener('mousemove', onMouseMove);
-        map.removeEventListener('mouseup', pinMouseUpHandler);
+        map.removeEventListener('mouseup', onMouseUp);
       };
 
       map.addEventListener('mousemove', onMouseMove);
-      map.addEventListener('mouseup', pinMouseUpHandler);
+      map.addEventListener('mouseup', onMouseUp);
 
     });
   };
 
-  window.pin = {
+  window.pointer = {
     create: create,
     onMove: onMove,
     onKeyDown: onKeyDown,

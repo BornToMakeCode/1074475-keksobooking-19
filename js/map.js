@@ -55,19 +55,43 @@
   };
 
   var showAdvertisementCard = function (advertisement) {
+    var selectedAddCard = mapContainer.querySelector('.map__card');
+    if (selectedAddCard !== null) {
+      selectedAddCard.remove();
+    }
+
     var advertisementCard = createAdvertisementCard(advertisement);
+    var onCloseAdButtonClick = function () {
+      advertisementCard.remove();
+      removePinHighlight();
+    };
+
+    var onOpenedAdKeydown = function (evt) {
+      if (evt.key === 'Escape') {
+        advertisementCard.remove();
+        removePinHighlight();
+        document.removeEventListener('keydown', onOpenedAdKeydown);
+      }
+    };
+
+    var closeAdButton = advertisementCard.querySelector('.popup__close');
+    document.addEventListener('keydown', onOpenedAdKeydown);
+    closeAdButton.addEventListener('click', onCloseAdButtonClick);
     var advertisementCardsFragment = document.createDocumentFragment();
     advertisementCardsFragment.appendChild(advertisementCard);
     mapContainer.insertBefore(advertisementCardsFragment, filtersContainer);
   };
 
   var highlightPin = function (pin) {
+    removePinHighlight();
+    pin.classList.add('map__pin--active');
+  };
+
+  var removePinHighlight = function () {
     var selectedPin = document.querySelector('.map__pin--active');
     if (selectedPin !== null) {
       selectedPin.classList.remove('map__pin--active');
     }
-
-    pin.classList.add('map__pin--active');
   };
 
   var addPin = function (advertisement) {

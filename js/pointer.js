@@ -13,14 +13,10 @@
   };
 
   var canBeMoved = function (desiredLeft, desiredTop) {
-    if (desiredTop >= TOP_MIN - HEIGHT
+    return desiredTop >= TOP_MIN - HEIGHT
     && desiredTop <= BOTTOM_MAX - HEIGHT
     && desiredLeft >= 0 - WIDTH / 2
-    && desiredLeft <= map.offsetWidth - WIDTH / 2) {
-      return true;
-    }
-
-    return false;
+    && desiredLeft <= map.offsetWidth - WIDTH / 2;
   };
 
   var onKeyDown = function (handler) {

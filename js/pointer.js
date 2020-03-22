@@ -1,11 +1,22 @@
 'use strict';
 
 (function () {
+  var TOP_MIN = 130;
+  var BOTTOM_MAX = 630;
+  var HEIGHT = 40;
+  var WIDTH = 40;
   var map = document.querySelector('.map');
   var me;
 
   var create = function (selector) {
     me = document.querySelector(selector);
+  };
+
+  var canBeMoved = function (desiredLeft, desiredTop) {
+    return desiredTop >= TOP_MIN - HEIGHT
+    && desiredTop <= BOTTOM_MAX - HEIGHT
+    && desiredLeft >= 0 - WIDTH / 2
+    && desiredLeft <= map.offsetWidth - WIDTH / 2;
   };
 
   var onKeyDown = function (handler) {
@@ -39,15 +50,20 @@
           y: startCoordinates.y - moveEvt.clientY
         };
 
-        startCoordinates = {
-          x: moveEvt.clientX,
-          y: moveEvt.clientY
-        };
+        var desiredLeft = (me.offsetLeft - shift.x);
+        var desiredTop = (me.offsetTop - shift.y);
 
-        me.style.top = (me.offsetTop - shift.y) + 'px';
-        me.style.left = (me.offsetLeft - shift.x) + 'px';
+        if (canBeMoved(desiredLeft, desiredTop)) {
+          startCoordinates = {
+            x: moveEvt.clientX,
+            y: moveEvt.clientY
+          };
 
-        handler({'X': (me.offsetTop - shift.y), 'Y': (me.offsetLeft - shift.x)});
+          me.style.left = desiredLeft + 'px';
+          me.style.top = desiredTop + 'px';
+
+          handler({'X': desiredLeft, 'Y': desiredLeft});
+        }
 
       };
 

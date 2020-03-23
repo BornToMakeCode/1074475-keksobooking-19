@@ -234,7 +234,7 @@
     disable();
   };
 
-  var filter = {
+  var mapFilter = {
     onTypeChange: onTypeChange,
     onPriceChange: onPriceChange,
     onRoomNumberChange: onRoomNumberChange,
@@ -248,6 +248,6 @@
     reset: reset,
     addAdvertisments: addAdvertisments,
     removeAdvertisments: removeAdvertisments,
-    filter: filter
+    filter: mapFilter
   };
 })();

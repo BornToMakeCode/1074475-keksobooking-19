@@ -62,7 +62,7 @@
     adFormAddress.value = left + ', ' + top;
   };
 
-  var areCapacityAndRoomNumberValid = function () {
+  var checkIfCapacityAndRoomNumberValid = function () {
     var result = false;
 
     var capacityNumber = Number(adFormCapacity.value);
@@ -127,7 +127,7 @@
     adFormRoomNumber.setCustomValidity('');
     adFormCapacity.setCustomValidity('');
 
-    if (!areCapacityAndRoomNumberValid()) {
+    if (!checkIfCapacityAndRoomNumberValid()) {
       adFormRoomNumber.setCustomValidity('Количество комнат не может быть меньше количества мест');
       adFormRoomNumber.reportValidity();
     }
@@ -137,7 +137,7 @@
     adFormCapacity.setCustomValidity('');
     adFormRoomNumber.setCustomValidity('');
 
-    if (!areCapacityAndRoomNumberValid()) {
+    if (!checkIfCapacityAndRoomNumberValid()) {
       adFormCapacity.setCustomValidity('Количество мест не может превышать количество комнат');
       adFormCapacity.reportValidity();
     }
@@ -209,7 +209,10 @@
 
   var onReset = function (handler) {
     adForm.addEventListener('reset', function () {
-      handler();
+      setTimeout(function () {
+        handler();
+      });
+
     });
   };
 

@@ -6,9 +6,11 @@
   var advertisments;
 
   var disablePage = function () {
-    window.map.removeAdvertisments();
+    map.classList.add('map--faded');
+    window.map.reset();
     window.map.disable();
     window.form.disable();
+    window.form.setAddress(300, 500);
   };
 
   var enablePage = function () {
@@ -20,7 +22,6 @@
 
   disablePage();
 
-  window.form.setAddress(300, 500);
   window.pointer.create('.map__pin--main');
 
   window.pointer.onKeyDown(function (evt) {
@@ -114,18 +115,46 @@
     window.map.addAdvertisments(filterAdvertisments());
   });
 
-  // window.xhr.post({url: 'https://js.dump.academy/keksobooking', data: 1},
-  //     function (response) {
-  //       // debugger;
-  //     }, function (response) {
-  //       debugger;
-  //     });
-
-
   window.xhr.get({url: 'https://js.dump.academy/keksobooking/data'},
       function (response) {
-        advertisments = response;
+        advertisments = response.data;
       }, function () {
       });
+
+  var showSubmitResultMessage = function (messageType) {
+    var template = document.querySelector('#' + messageType).content.querySelector('.' + messageType);
+    var message = template.cloneNode(true);
+    document.querySelector('main').appendChild(message);
+
+    var onWindowClick = function () {
+      message.remove();
+      document.removeEventListener('click', onWindowClick);
+      document.removeEventListener('keydown', onWindowKeydown);
+    };
+
+    var onWindowKeydown = function (evt) {
+      if (evt.key === window.utils.Key.ESCAPE) {
+        message.remove();
+      }
+      document.removeEventListener('click', onWindowClick);
+      document.removeEventListener('keydown', onWindowKeydown);
+    };
+
+    document.addEventListener('click', onWindowClick);
+    document.addEventListener('keydown', onWindowKeydown);
+  };
+
+  window.form.onSubmit(function (response) {
+    if (response.status === window.utils.RequestStatusCode.OK) {
+      showSubmitResultMessage('success');
+    } else {
+      showSubmitResultMessage('error');
+    }
+  });
+
+  window.form.onReset(function () {
+    disablePage();
+    window.map.reset();
+  });
 
 })();

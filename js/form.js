@@ -22,13 +22,11 @@
     'elevator': adForm.querySelector('#feature-elevator'),
     'conditioner': adForm.querySelector('#feature-conditioner')
   };
-  var isAdFormDisabled = adForm.classList.contains('ad-form--disabled');
-
-  adFormAddress.disabled = true;
+  adFormAddress.readOnly = true;
 
   var disable = function (isDisabled) {
     var shouldBeDisabled = typeof isDisabled === 'boolean' ? isDisabled : true;
-
+    var isAdFormDisabled = adForm.classList.contains('ad-form--disabled');
     if (shouldBeDisabled) {
       if (!isAdFormDisabled) {
         adForm.classList.add('ad-form--disabled');
@@ -187,15 +185,32 @@
     validateAdCapacity();
   };
 
-  var onAdFormSubmit = function (evt) {
-    validateAdTitle();
-    validateAdPrice();
-    validateAdRoomNumber();
-    validateAdCapacity();
+  var onSubmit = function (handler) {
+    adForm.addEventListener('submit', function (evt) {
+      validateAdTitle();
+      validateAdPrice();
+      validateAdRoomNumber();
+      validateAdCapacity();
 
-    if (!adForm.checkValidity()) {
       evt.preventDefault();
-    }
+      if (!adForm.checkValidity()) {
+        evt.preventDefault();
+      } else {
+        window.xhr.post({url: 'https://js.dump.academy/keksobooking', data: new FormData(adForm)},
+            function (response) {
+              handler(response);
+              adForm.reset();
+            }, function (response) {
+              handler(response);
+            });
+      }
+    });
+  };
+
+  var onReset = function (handler) {
+    adForm.addEventListener('reset', function () {
+      handler();
+    });
   };
 
   adFormTitle.addEventListener('blur', onTitleBlur);
@@ -205,11 +220,12 @@
   adFormTimeout.addEventListener('change', onAdFormTimeoutChange);
   adFormCapacity.addEventListener('change', onCapacityChange);
   adFormRoomNumber.addEventListener('change', onRoomNumberChange);
-  adForm.addEventListener('submit', onAdFormSubmit);
 
   window.form = {
     disable: disable,
     enable: enable,
-    setAddress: setAddress
+    setAddress: setAddress,
+    onSubmit: onSubmit,
+    onReset: onReset
   };
 })();

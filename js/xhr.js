@@ -20,8 +20,8 @@
     request.open(options.method, options.url);
 
     request.addEventListener('load', function () {
-      if (request.status === 200) {
-        options.onSuccess(request.response);
+      if (request.status === window.utils.RequestStatusCode.OK) {
+        options.onSuccess({status: request.status, data: request.response});
       } else {
         options.onError(request);
       }
@@ -40,7 +40,7 @@
         request.send();
         break;
       case Method.POST:
-        request.send(request.data);
+        request.send(options.data);
         break;
       default:
         throw new NotImplementedException('Отсутствует реализация метода ' + options.method);

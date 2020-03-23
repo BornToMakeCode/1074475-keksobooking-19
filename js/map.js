@@ -174,6 +174,51 @@
     filterFormFeatures.conditioner.disabled = shouldBeDisabled;
   };
 
+  var onFillterValueChange = function (changedValue, handler) {
+    window.utils.debounce(function () {
+      removeOpenedAdvertisementCard();
+      handler(changedValue);
+    });
+  };
+
+  var onTypeChange = function (handler) {
+    filterFormType.addEventListener('change', function () {
+      onFillterValueChange(filterFormType.value, handler);
+    });
+  };
+
+  var onPriceChange = function (handler) {
+    filterFormPrice.addEventListener('change', function () {
+
+      onFillterValueChange(filterFormPrice.value, handler);
+    });
+  };
+
+  var onRoomNumberChange = function (handler) {
+    filterFormRoomNumber.addEventListener('change', function () {
+
+      onFillterValueChange(filterFormRoomNumber.value, handler);
+    });
+  };
+
+  var onCapacityChange = function (handler) {
+    filterFormCapacity.addEventListener('change', function () {
+
+      onFillterValueChange(filterFormCapacity.value, handler);
+    });
+  };
+
+  var onFeaturesChange = function (handler) {
+    filterForm.querySelector('.map__features').addEventListener('change', function () {
+      var checkedNodes = document.querySelectorAll('.map__checkbox:checked');
+      var selectedFeatures = Array.from(checkedNodes, function (element) {
+        return element.value;
+      });
+
+      onFillterValueChange(selectedFeatures, handler);
+    });
+  };
+
   var enable = function () {
     disableFilter(false);
   };
@@ -184,46 +229,9 @@
 
   var reset = function () {
     removeAdvertisments();
+    removeOpenedAdvertisementCard();
+    filterForm.reset();
     disable();
-  };
-
-  var onTypeChange = function (handler) {
-    filterFormType.addEventListener('change', function () {
-      removeOpenedAdvertisementCard();
-      handler(filterFormType.value);
-    });
-  };
-
-  var onPriceChange = function (handler) {
-    filterFormPrice.addEventListener('change', function () {
-      removeOpenedAdvertisementCard();
-      handler(filterFormPrice.value);
-    });
-  };
-
-  var onRoomNumberChange = function (handler) {
-    filterFormRoomNumber.addEventListener('change', function () {
-      removeOpenedAdvertisementCard();
-      handler(filterFormRoomNumber.value);
-    });
-  };
-
-  var onCapacityChange = function (handler) {
-    filterFormCapacity.addEventListener('change', function () {
-      removeOpenedAdvertisementCard();
-      handler(filterFormCapacity.value);
-    });
-  };
-
-  var onFeaturesChange = function (handler) {
-    filterForm.querySelector('.map__features').addEventListener('change', function () {
-      var checkedNodes = document.querySelectorAll('.map__checkbox:checked');
-      var selectedFeatures = Array.from(checkedNodes, function (element) {
-        return element.value;
-      });
-      removeOpenedAdvertisementCard();
-      handler(selectedFeatures);
-    });
   };
 
   var filter = {

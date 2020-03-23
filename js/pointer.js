@@ -8,8 +8,10 @@
   var map = document.querySelector('.map');
   var me;
 
-  var create = function (selector) {
+  var create = function (selector, options) {
     me = document.querySelector(selector);
+    me.style.left = options.coordX - WIDTH / 2 + 'px';
+    me.style.top = options.coordY - HEIGHT + 'px';
   };
 
   var canBeMoved = function (desiredLeft, desiredTop) {
@@ -61,8 +63,7 @@
 
           me.style.left = desiredLeft + 'px';
           me.style.top = desiredTop + 'px';
-
-          handler({'X': desiredLeft, 'Y': desiredLeft});
+          handler({'X': desiredLeft + WIDTH / 2, 'Y': desiredTop + HEIGHT});
         }
 
       };

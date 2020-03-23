@@ -216,13 +216,13 @@
   };
 
   var onFeaturesChange = function (handler) {
-
-    document.querySelector('.map__features').addEventListener('mousedown', function (evt) {
-      var mainButton = 0;
-      if (evt.button === mainButton) {
-        var a = document.querySelectorAll('.map__checkbox')[0].checked;
-        console.log(a);
-      }
+    filterForm.querySelector('.map__features').addEventListener('change', function () {
+      var checkedNodes = document.querySelectorAll('.map__checkbox:checked');
+      var selectedFeatures = Array.from(checkedNodes, function (element) {
+        return element.value;
+      });
+      removeOpenedAdvertisementCard();
+      handler(selectedFeatures);
     });
   };
 

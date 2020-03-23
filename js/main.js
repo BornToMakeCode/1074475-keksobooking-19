@@ -48,6 +48,7 @@
       var isPriceMatch = true;
       var isRoomNumberMatch = true;
       var isCapacityMatch = true;
+      var isFeaturesMatch = true;
       if (fiter.type) {
         isTypeMatch = fiter.type === 'any' || element.offer.type === fiter.type;
       }
@@ -69,12 +70,16 @@
       if (fiter.roomNumber) {
         isRoomNumberMatch = fiter.roomNumber === 'any' || element.offer.rooms === Number(fiter.roomNumber);
       }
-
       if (fiter.capacity) {
         isCapacityMatch = fiter.capacity === 'any' || element.offer.guests === Number(fiter.capacity);
       }
+      if (fiter.features) {
+        isFeaturesMatch = fiter.features.every(function (el) {
+          return element.offer.features.includes(el);
+        });
+      }
 
-      return isTypeMatch && isPriceMatch && isRoomNumberMatch && isCapacityMatch;
+      return isTypeMatch && isPriceMatch && isRoomNumberMatch && isCapacityMatch && isFeaturesMatch;
 
     }).slice(0, 5);
   };
@@ -105,6 +110,8 @@
 
   window.map.filter.onFeaturesChange(function (value) {
     fiter.features = value;
+    window.map.removeAdvertisments();
+    window.map.addAdvertisments(filterAdvertisments());
   });
 
   // window.xhr.post({url: 'https://js.dump.academy/keksobooking', data: 1},

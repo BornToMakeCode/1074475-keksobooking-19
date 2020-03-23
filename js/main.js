@@ -4,6 +4,7 @@
 
   var map = document.querySelector('.map');
   var advertisments;
+  var isPageDisabled;
 
   var disablePage = function () {
     map.classList.add('map--faded');
@@ -12,13 +13,18 @@
     window.form.disable();
     window.form.setAddress(580, 410);
     window.pointer.setCoordinates({x: 580, y: 410});
+    isPageDisabled = true;
   };
 
   var enablePage = function () {
+    if (!isPageDisabled) {
+      return;
+    }
     window.map.addAdvertisments(advertisments.slice(0, 5));
     map.classList.remove('map--faded');
     window.map.enable();
     window.form.enable();
+    isPageDisabled = false;
   };
 
   disablePage();
@@ -116,7 +122,9 @@
 
   window.xhr.get({url: 'https://js.dump.academy/keksobooking/data'},
       function (response) {
-        advertisments = response.data;
+        advertisments = response.data.filter(function (element) {
+          return element.offer !== null;
+        });
       });
 
   var showSubmitResultMessage = function (messageType) {

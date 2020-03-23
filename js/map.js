@@ -7,6 +7,20 @@
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var filtersContainer = document.querySelector('.map__filters-container');
 
+  var filterForm = document.querySelector('.map__filters');
+  var filterFormType = filterForm.querySelector('#housing-type');
+  var filterFormPrice = filterForm.querySelector('#housing-price');
+  var filterFormRoomNumber = filterForm.querySelector('#housing-rooms');
+  var filterFormCapacity = filterForm.querySelector('#housing-guests');
+  var filterFormFeatures = {
+    'wifi': filterForm.querySelector('#filter-wifi'),
+    'dishwasher': filterForm.querySelector('#filter-dishwasher'),
+    'parking': filterForm.querySelector('#filter-parking'),
+    'washer': filterForm.querySelector('#filter-washer'),
+    'elevator': filterForm.querySelector('#filter-elevator'),
+    'conditioner': filterForm.querySelector('#filter-conditioner')
+  };
+
   var createAdvertisementCard = function (advertisement) {
     var cardElement = cardTemplate.cloneNode(true);
 
@@ -54,11 +68,15 @@
     return cardElement;
   };
 
-  var showAdvertisementCard = function (advertisement) {
-    var selectedAddCard = mapContainer.querySelector('.map__card');
-    if (selectedAddCard !== null) {
-      selectedAddCard.remove();
+  var removeOpenedAdvertisementCard = function () {
+    var openedAdvertisementCard = mapContainer.querySelector('.map__card');
+    if (openedAdvertisementCard !== null) {
+      openedAdvertisementCard.remove();
     }
+  };
+
+  var showAdvertisementCard = function (advertisement) {
+    removeOpenedAdvertisementCard();
 
     var advertisementCard = createAdvertisementCard(advertisement);
     var onCloseAdButtonClick = function () {
@@ -130,7 +148,98 @@
     pinsContainer.appendChild(pinsFragment);
   };
 
+  var removeAdvertisments = function () {
+    var pinsContainer = document.querySelector('.map__pins');
+    var pointer = document.querySelector('.map__pin--main');
+    var overlay = document.querySelector('.map__overlay');
+    var pinsFragment = document.createDocumentFragment();
+    pinsFragment.appendChild(overlay);
+    pinsFragment.appendChild(pointer);
+    pinsContainer.innerHTML = '';
+    pinsContainer.append(pinsFragment);
+  };
+
+  var disableFilter = function (isDisabled) {
+    var shouldBeDisabled = typeof isDisabled === 'boolean' ? isDisabled : true;
+
+    filterFormType.disabled = shouldBeDisabled;
+    filterFormPrice.disabled = shouldBeDisabled;
+    filterFormRoomNumber.disabled = shouldBeDisabled;
+    filterFormCapacity.disabled = shouldBeDisabled;
+    filterFormFeatures.wifi.disabled = shouldBeDisabled;
+    filterFormFeatures.dishwasher.disabled = shouldBeDisabled;
+    filterFormFeatures.parking.disabled = shouldBeDisabled;
+    filterFormFeatures.washer.disabled = shouldBeDisabled;
+    filterFormFeatures.elevator.disabled = shouldBeDisabled;
+    filterFormFeatures.conditioner.disabled = shouldBeDisabled;
+  };
+
+  var enable = function () {
+    disableFilter(false);
+  };
+
+  var disable = function () {
+    disableFilter();
+  };
+
+  var reset = function () {
+    removeAdvertisments();
+    disable();
+  };
+
+  var onTypeChange = function (handler) {
+    filterFormType.addEventListener('change', function () {
+      removeOpenedAdvertisementCard();
+      handler(filterFormType.value);
+    });
+  };
+
+  var onPriceChange = function (handler) {
+    filterFormPrice.addEventListener('change', function () {
+      removeOpenedAdvertisementCard();
+      handler(filterFormPrice.value);
+    });
+  };
+
+  var onRoomNumberChange = function (handler) {
+    filterFormRoomNumber.addEventListener('change', function () {
+      removeOpenedAdvertisementCard();
+      handler(filterFormRoomNumber.value);
+    });
+  };
+
+  var onCapacityChange = function (handler) {
+    filterFormCapacity.addEventListener('change', function () {
+      removeOpenedAdvertisementCard();
+      handler(filterFormCapacity.value);
+    });
+  };
+
+  var onFeaturesChange = function (handler) {
+
+    document.querySelector('.map__features').addEventListener('mousedown', function (evt) {
+      var mainButton = 0;
+      if (evt.button === mainButton) {
+        var a = document.querySelectorAll('.map__checkbox')[0].checked;
+        console.log(a);
+      }
+    });
+  };
+
+  var filter = {
+    onTypeChange: onTypeChange,
+    onPriceChange: onPriceChange,
+    onRoomNumberChange: onRoomNumberChange,
+    onCapacityChange: onCapacityChange,
+    onFeaturesChange: onFeaturesChange
+  };
+
   window.map = {
-    addAdvertisments: addAdvertisments
+    disable: disable,
+    enable: enable,
+    reset: reset,
+    addAdvertisments: addAdvertisments,
+    removeAdvertisments: removeAdvertisments,
+    filter: filter
   };
 })();

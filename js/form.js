@@ -22,7 +22,6 @@
     'elevator': adForm.querySelector('#feature-elevator'),
     'conditioner': adForm.querySelector('#feature-conditioner')
   };
-  adFormAddress.readOnly = true;
 
   var disable = function (isDisabled) {
     var shouldBeDisabled = typeof isDisabled === 'boolean' ? isDisabled : true;
@@ -34,7 +33,8 @@
     } else {
       adForm.classList.remove('ad-form--disabled');
     }
-
+    adFormAddress.readOnly = !shouldBeDisabled;
+    adFormAddress.disabled = shouldBeDisabled;
     adFormTitle.disabled = shouldBeDisabled;
     adFormType.disabled = shouldBeDisabled;
     adFormPrice.disabled = shouldBeDisabled;

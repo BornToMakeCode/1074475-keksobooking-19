@@ -117,7 +117,6 @@
   window.xhr.get({url: 'https://js.dump.academy/keksobooking/data'},
       function (response) {
         advertisments = response.data;
-      }, function () {
       });
 
   var showSubmitResultMessage = function (messageType) {

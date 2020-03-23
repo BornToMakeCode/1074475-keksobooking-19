@@ -14,7 +14,7 @@
     me.style.top = coordinates.y - HEIGHT + 'px';
   };
 
-  var canBeMoved = function (desiredLeft, desiredTop) {
+  var checkIfCanBeMoved = function (desiredLeft, desiredTop) {
     return desiredTop >= TOP_MIN - HEIGHT
     && desiredTop <= BOTTOM_MAX - HEIGHT
     && desiredLeft >= 0 - WIDTH / 2
@@ -55,7 +55,7 @@
         var desiredLeft = (me.offsetLeft - shift.x);
         var desiredTop = (me.offsetTop - shift.y);
 
-        if (canBeMoved(desiredLeft, desiredTop)) {
+        if (checkIfCanBeMoved(desiredLeft, desiredTop)) {
           startCoordinates = {
             x: moveEvt.clientX,
             y: moveEvt.clientY

@@ -7,11 +7,9 @@
     'ENTER': 'Enter',
     'ESCAPE': 'Escape'
   };
-
   var RequestStatusCode = {
     OK: 200
   };
-
   var previousTimeout;
 
   var debounce = function (callback) {

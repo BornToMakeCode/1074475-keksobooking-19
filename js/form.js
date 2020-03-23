@@ -209,7 +209,10 @@
 
   var onReset = function (handler) {
     adForm.addEventListener('reset', function () {
-      handler();
+      setTimeout(function () {
+        handler();
+      });
+
     });
   };
 

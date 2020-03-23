@@ -11,6 +11,7 @@
     window.map.disable();
     window.form.disable();
     window.form.setAddress(580, 410);
+    window.pointer.setCoordinates({x: 580, y: 410});
   };
 
   var enablePage = function () {
@@ -21,8 +22,6 @@
   };
 
   disablePage();
-
-  window.pointer.create('.map__pin--main', {coordX: 580, coordY: 410});
 
   window.pointer.onKeyDown(function (evt) {
     if (evt.key === window.utils.Key.ENTER) {

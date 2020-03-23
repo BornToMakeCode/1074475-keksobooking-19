@@ -6,12 +6,12 @@
   var HEIGHT = 40;
   var WIDTH = 40;
   var map = document.querySelector('.map');
-  var me;
+  var me = document.querySelector('.map__pin--main');
 
-  var create = function (selector, options) {
-    me = document.querySelector(selector);
-    me.style.left = options.coordX - WIDTH / 2 + 'px';
-    me.style.top = options.coordY - HEIGHT + 'px';
+  var setCoordinates = function (coordinates) {
+    me = document.querySelector('.map__pin--main');
+    me.style.left = coordinates.x - WIDTH / 2 + 'px';
+    me.style.top = coordinates.y - HEIGHT + 'px';
   };
 
   var canBeMoved = function (desiredLeft, desiredTop) {
@@ -80,10 +80,10 @@
   };
 
   window.pointer = {
-    create: create,
     onMove: onMove,
     onKeyDown: onKeyDown,
-    onMouseDown: onMouseDown
+    onMouseDown: onMouseDown,
+    setCoordinates: setCoordinates
   };
 })();
 
